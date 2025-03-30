@@ -1052,6 +1052,7 @@ textarea:focus {
 
 .bag-box {
   display: flex;
+  position: relative;
 }
 
 .bag {

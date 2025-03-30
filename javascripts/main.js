@@ -697,25 +697,27 @@ const myBird = new Bird({
 
 document.querySelectorAll(".tools-box img").forEach((item) => {
   item.addEventListener("mousedown", (event) => {
-    let bag = document.querySelector(".bag-box").getBoundingClientRect();
-    let shiftX = event.clientX - item.getBoundingClientRect().left;
-    let shiftY = event.clientY - item.getBoundingClientRect().top;
+    event.preventDefault();
+
+    const bagBox = document.querySelector(".bag-box");
+    const bagBoxRect = bagBox.getBoundingClientRect();
+    const itemRect = item.getBoundingClientRect();
+
+    let shiftX = event.clientX - itemRect.left;
+    let shiftY = event.clientY - itemRect.top;
 
     item.style.position = "absolute";
     item.style.zIndex = 1000;
+    item.style.pointerEvents = "none"; // временно, чтобы не мешать событиям
+    item.style.width = itemRect.width + "px";
+    item.style.height = itemRect.height + "px";
+    document.body.appendChild(item); // переместим к body, чтобы свободно таскать
+
+    moveAt(event.pageX, event.pageY);
 
     function moveAt(pageX, pageY) {
-      let newX = Math.max(
-        bag.left,
-        Math.min(pageX - shiftX, bag.right - item.offsetWidth)
-      );
-      let newY = Math.max(
-        bag.top,
-        Math.min(pageY - shiftY, bag.bottom - item.offsetHeight)
-      );
-
-      item.style.left = newX - bag.left + "px";
-      item.style.top = newY - bag.top + "px";
+      item.style.left = pageX - shiftX + "px";
+      item.style.top = pageY - shiftY + "px";
     }
 
     function onMouseMove(event) {
@@ -724,10 +726,44 @@ document.querySelectorAll(".tools-box img").forEach((item) => {
 
     document.addEventListener("mousemove", onMouseMove);
 
-    item.addEventListener("mouseup", () => {
-      document.removeEventListener("mousemove", onMouseMove);
-      item.onmouseup = null;
-    });
+    document.addEventListener(
+      "mouseup",
+      function onMouseUp(event) {
+        document.removeEventListener("mousemove", onMouseMove);
+        document.removeEventListener("mouseup", onMouseUp);
+
+        const bag = document.querySelector(".bag").getBoundingClientRect();
+
+        if (
+          event.clientX > bag.left &&
+          event.clientX < bag.right &&
+          event.clientY > bag.top &&
+          event.clientY < bag.bottom
+        ) {
+          // Перемещаем внутрь сумки
+          const leftInBag = event.clientX - shiftX - bagBoxRect.left;
+          const topInBag = event.clientY - shiftY - bagBoxRect.top;
+
+          item.style.left = leftInBag + "px";
+          item.style.top = topInBag + "px";
+          item.style.pointerEvents = "auto";
+
+          bagBox.appendChild(item); // теперь элемент внутри сумки
+        } else {
+          // Вернуть обратно в tools-box (если не попал в сумку)
+          const toolsBox = document.querySelector(".tools-box");
+          toolsBox.appendChild(item);
+          item.style.position = "";
+          item.style.left = "";
+          item.style.top = "";
+          item.style.zIndex = "";
+          item.style.width = "";
+          item.style.height = "";
+          item.style.pointerEvents = "auto";
+        }
+      },
+      { once: true }
+    );
   });
 
   item.ondragstart = () => false;
