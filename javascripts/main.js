@@ -708,10 +708,10 @@ document.querySelectorAll(".tools-box img").forEach((item) => {
 
     item.style.position = "absolute";
     item.style.zIndex = 1000;
-    item.style.pointerEvents = "none"; // временно, чтобы не мешать событиям
+    item.style.pointerEvents = "none";
     item.style.width = itemRect.width + "px";
     item.style.height = itemRect.height + "px";
-    document.body.appendChild(item); // переместим к body, чтобы свободно таскать
+    document.body.appendChild(item);
 
     moveAt(event.pageX, event.pageY);
 
@@ -740,7 +740,6 @@ document.querySelectorAll(".tools-box img").forEach((item) => {
           event.clientY > bag.top &&
           event.clientY < bag.bottom
         ) {
-          // Перемещаем внутрь сумки
           const leftInBag = event.clientX - shiftX - bagBoxRect.left;
           const topInBag = event.clientY - shiftY - bagBoxRect.top;
 
@@ -748,9 +747,8 @@ document.querySelectorAll(".tools-box img").forEach((item) => {
           item.style.top = topInBag + "px";
           item.style.pointerEvents = "auto";
 
-          bagBox.appendChild(item); // теперь элемент внутри сумки
+          bagBox.appendChild(item);
         } else {
-          // Вернуть обратно в tools-box (если не попал в сумку)
           const toolsBox = document.querySelector(".tools-box");
           toolsBox.appendChild(item);
           item.style.position = "";
