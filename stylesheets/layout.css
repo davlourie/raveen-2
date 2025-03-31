@@ -238,8 +238,6 @@ textarea:focus {
   }
 }
 
-/* Selection color change */
-
 ::selection {
   color: #0f1010;
   background-color: #d40000;
@@ -249,8 +247,6 @@ textarea:focus {
   color: #0f1010;
   background-color: #d40000;
 }
-
-/* STYLES */
 
 .hero-section {
   position: relative;
@@ -419,46 +415,36 @@ textarea:focus {
 .blob-1 {
   position: absolute;
   top: 60%;
-  transform: translateY(-50%);
   right: -20%;
   width: 50%;
   height: auto;
   max-width: 1108px;
   aspect-ratio: 1108/1021;
-  background-image: url("../images/h-blob-1.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
   pointer-events: none;
+  transition: transform 1.5s ease-in-out;
 }
 
 .blob-2 {
   position: absolute;
   top: -90%;
   left: 40%;
-  transform: translateX(-50%);
-  height: auto;
   width: 100%;
   max-width: 80%;
   aspect-ratio: 1745/1436;
-  background-image: url("../images/h-blob-2.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
   pointer-events: none;
+  transition: transform 1.5s ease-in-out;
 }
 
 .blob-3 {
   position: absolute;
   top: 70%;
-  transform: translateY(-50%);
   left: -20%;
   width: 50%;
   height: auto;
   max-width: 980px;
   aspect-ratio: 980/910;
-  background-image: url("../images/h-blob-3.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
   pointer-events: none;
+  transition: transform 1.5s ease-in-out;
 }
 
 .bag-section {
