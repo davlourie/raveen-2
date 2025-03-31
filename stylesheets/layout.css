@@ -271,6 +271,15 @@ textarea:focus {
   height: auto;
 }
 
+.hero-logo .logo-letter {
+  transition: fill 0.3s ease;
+  cursor: pointer;
+}
+
+.hero-logo .logo-letter:hover {
+  fill: #d40000;
+}
+
 .hero-section__btns {
   position: absolute;
   top: 20px;
